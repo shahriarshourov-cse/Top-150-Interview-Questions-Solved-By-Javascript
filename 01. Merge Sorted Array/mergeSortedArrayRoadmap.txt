@@ -1,0 +1,106 @@
+Question : solve marge sorted array by javascript - 
+You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+
+
+To merge two sorted arrays `nums1` and `nums2` into `nums1`, you can use a two-pointer approach. Since `nums1` has enough space to accommodate both arrays, we can start comparing elements from the end of each array and place them in the correct position in `nums1`.
+
+Here's the JavaScript code to solve the problem:
+
+```javascript
+const merge = (nums1, m, nums2, n) => {
+  let i = m - 1; // Index of last element in nums1
+  let j = n - 1; // Index of last element in nums2
+  let k = m + n - 1; // Index of last element in the merged array (nums1)
+
+  while (i >= 0 && j >= 0) {
+    if (nums1[i] > nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
+    }
+    k--;
+  }
+
+  // If there are remaining elements in nums2, copy them to nums1
+  while (j >= 0) {
+    nums1[k] = nums2[j];
+    j--;
+    k--;
+  }
+};
+```
+
+To use this function, you can call it with the given inputs `nums1`, `m`, `nums2`, and `n`. After the function is executed, `nums1` will contain the merged sorted array.
+
+Here's an example usage:
+
+```javascript
+const nums1 = [1, 2, 3, 0, 0, 0]; // length m = 3
+const m = 3;
+const nums2 = [2, 5, 6]; // length n = 3
+const n = 3;
+
+merge(nums1, m, nums2, n);
+console.log(nums1); // Output: [1, 2, 2, 3, 5, 6]
+```
+
+In the example above, the merged sorted array `[1, 2, 2, 3, 5, 6]` is stored in `nums1`.
+
+
+
+
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]
+Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+
+
+
+Apologies for the oversight in the previous response. To ensure that the initial elements of `nums1` are preserved before the merge, we need to make a copy of `nums1` before performing the merge. Here's the updated code:
+
+```javascript
+const merge = (nums1, m, nums2, n) => {
+  // Make a copy of nums1
+  const nums1Copy = nums1.slice(0, m);
+
+  let i = m - 1; // Index of last element in nums1Copy
+  let j = n - 1; // Index of last element in nums2
+  let k = m + n - 1; // Index of last element in the merged array (nums1)
+
+  while (i >= 0 && j >= 0) {
+    if (nums1Copy[i] > nums2[j]) {
+      nums1[k] = nums1Copy[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
+    }
+    k--;
+  }
+
+  // If there are remaining elements in nums2, copy them to nums1
+  while (j >= 0) {
+    nums1[k] = nums2[j];
+    j--;
+    k--;
+  }
+};
+```
+
+Using the updated `merge` function, the example usage would now give the expected output:
+
+```javascript
+const nums1 = [1, 2, 3, 0, 0, 0]; // length m = 3
+const m = 3;
+const nums2 = [2, 5, 6]; // length n = 3
+const n = 3;
+
+merge(nums1, m, nums2, n);
+console.log(nums1); // Output: [1, 2, 2, 3, 5, 6]
+```
+
+The merged sorted array `[1, 2, 2, 3, 5, 6]` is stored in `nums1`, as expected.
